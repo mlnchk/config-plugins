@@ -11,6 +11,7 @@ import fs from "fs";
 import path from "path";
 // @ts-ignore
 import pbxFile from "xcode/lib/pbxFile";
+import { setIconsAsync } from "./withIosIcons";
 
 const folderName = "DynamicAppIcons";
 const size = 60;
@@ -46,6 +47,8 @@ const withDynamicIcon: ConfigPlugin<string[] | IconSet | void> = (
   config = withIconXcodeProject(config, { icons: prepped });
   config = withIconInfoPlist(config, { icons: prepped });
   config = withIconImages(config, { icons: prepped });
+  config = withIconAssets(config, { icons: prepped });
+
   return config;
 };
 
@@ -178,6 +181,20 @@ const withIconInfoPlist: ConfigPlugin<Props> = (config, { icons }) => {
 
     return config;
   });
+};
+
+const withIconAssets: ConfigPlugin<Props> = (config, props) => {
+  return withDangerousMod(config, [
+    "ios",
+    async (config) => {
+      await iterateIconsAsync(props, async (key, icon) => {
+        console.log("ass", icon.image);
+        return setIconsAsync(icon.image, config.modRequest.projectRoot);
+      });
+
+      return config;
+    },
+  ]);
 };
 
 const withIconImages: ConfigPlugin<Props> = (config, props) => {

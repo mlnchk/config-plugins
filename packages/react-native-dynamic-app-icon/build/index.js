@@ -9,6 +9,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 // @ts-ignore
 const pbxFile_1 = __importDefault(require("xcode/lib/pbxFile"));
+const withIosIcons_1 = require("./withIosIcons");
 const folderName = "DynamicAppIcons";
 const size = 60;
 const scales = [2, 3];
@@ -27,6 +28,7 @@ const withDynamicIcon = (config, props = {}) => {
     config = withIconXcodeProject(config, { icons: prepped });
     config = withIconInfoPlist(config, { icons: prepped });
     config = withIconImages(config, { icons: prepped });
+    config = withIconAssets(config, { icons: prepped });
     return config;
 };
 function getIconName(name, size, scale) {
@@ -123,6 +125,18 @@ const withIconInfoPlist = (config, { icons }) => {
         applyToPlist("CFBundleIcons~ipad");
         return config;
     });
+};
+const withIconAssets = (config, props) => {
+    return (0, config_plugins_1.withDangerousMod)(config, [
+        "ios",
+        async (config) => {
+            await iterateIconsAsync(props, async (key, icon) => {
+                console.log("ass", icon.image);
+                return (0, withIosIcons_1.setIconsAsync)(icon.image, config.modRequest.projectRoot);
+            });
+            return config;
+        },
+    ]);
 };
 const withIconImages = (config, props) => {
     return (0, config_plugins_1.withDangerousMod)(config, [
