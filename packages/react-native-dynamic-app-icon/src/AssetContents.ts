@@ -1,4 +1,4 @@
-// https://github.com/expo/expo/blob/be24eba574fc3749bb7be4d579762d911480b6ad/packages/%40expo/prebuild-config/src/plugins/icons/AssetContents.ts
+// https://github.com/expo/expo/blob/e81992bbef3e626d7d67f3c3238f774ac2570abf/packages/%40expo/prebuild-config/src/plugins/icons/AssetContents.ts
 
 // @ts-ignore
 import fs from "fs-extra";
@@ -7,8 +7,6 @@ import { join } from "path";
 export type ContentsJsonImageIdiom =
   | "iphone"
   | "ipad"
-  | "watchos"
-  | "ios"
   | "ios-marketing"
   | "universal";
 
@@ -23,9 +21,8 @@ export interface ContentsJsonImage {
   appearances?: ContentsJsonImageAppearance[];
   idiom: ContentsJsonImageIdiom;
   size?: string;
-  scale?: ContentsJsonImageScale;
+  scale: ContentsJsonImageScale;
   filename?: string;
-  platform?: ContentsJsonImageIdiom;
 }
 
 export interface ContentsJson {

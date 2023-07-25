@@ -5,7 +5,8 @@
   "scripts": {
     "start": "expo start --dev-client",
     "ios": "expo run:ios",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "prebuild": "expo prebuild -p ios"
   },
   "dependencies": {
     "@config-plugins/react-native-dynamic-app-icon": "*",

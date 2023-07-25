@@ -112,6 +112,16 @@ const withIconXcodeProject: ConfigPlugin<Props> = (config, { icons }) => {
 
     // Link new assets
 
+    const configurations = config.modResults.pbxXCBuildConfigurationSection();
+
+    // @ts-ignore
+    for (const { buildSettings } of Object.values(configurations ?? {})) {
+      console.log("buildSettings", buildSettings);
+      if (buildSettings) {
+        buildSettings.ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = "YES";
+      }
+    }
+
     await iterateIconsAsync({ icons }, async (key, icon, index) => {
       for (const scale of scales) {
         const iconFileName = getIconName(key, size, scale);
